@@ -847,6 +847,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.goto('/data-sveltekit/preload-code');
 		await page.locator('#eager').hover();
 		await page.locator('#eager').dispatchEvent('touchstart');
+		await page.waitForTimeout(200)
 		// expect 4 nodes on initial load: root layout, root error, current page, and eager preload
 		expect(responses.length).toEqual(4);
 
@@ -856,7 +857,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#viewport').hover();
 		await page.locator('#viewport').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(responses.length).toEqual(1);
@@ -866,7 +867,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#hover').hover();
 		await page.locator('#hover').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(responses.length).toEqual(1);
@@ -876,7 +877,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#tap').hover();
 		await page.locator('#tap').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(responses.length).toEqual(1);
@@ -909,7 +910,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#one').hover();
 		await page.locator('#one').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(2);
@@ -919,7 +920,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#two').hover();
 		await page.locator('#two').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(2);
@@ -929,7 +930,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#three').hover();
 		await page.locator('#three').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(0);
@@ -939,7 +940,7 @@ test.describe('data-sveltekit attributes', () => {
 		await page.locator('#tap').hover();
 		await page.locator('#tap').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(2);
@@ -956,7 +957,7 @@ test.describe('data-sveltekit attributes', () => {
 
 		await page.locator('#one').dispatchEvent('mousemove');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 
@@ -979,14 +980,14 @@ test.describe('data-sveltekit attributes', () => {
 
 		await page.locator('#one').dispatchEvent('mousemove');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 
 		expect(page).toHaveURL('/data-sveltekit/preload-data/offline');
 
 		await page.locator('#one').dispatchEvent('click');
-		await page.waitForTimeout(100); // wait for navigation to start
+		await page.waitForTimeout(200); // wait for navigation to start
 		await page.waitForLoadState('networkidle');
 
 		let offline_url = /\/data-sveltekit\/preload-data\/offline/;
@@ -1001,10 +1002,10 @@ test.describe('data-sveltekit attributes', () => {
 		await page.goto('/data-sveltekit/preload-data/offline');
 
 		await page.locator('#slow-navigation').dispatchEvent('click');
-		await page.waitForTimeout(100); // wait for navigation to start
+		await page.waitForTimeout(200); // wait for navigation to start
 		await page.locator('#slow-navigation').dispatchEvent('mousemove');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 
@@ -1039,14 +1040,14 @@ test.describe('data-sveltekit attributes', () => {
 		await page.goto('/data-sveltekit/preload-data');
 		await page.locator('#hover-then-tap').hover();
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(1);
 
 		await page.locator('#hover-then-tap').dispatchEvent('touchstart');
 		await Promise.all([
-			page.waitForTimeout(100), // wait for preloading to start
+			page.waitForTimeout(200), // wait for preloading to start
 			page.waitForLoadState('networkidle') // wait for preloading to finish
 		]);
 		expect(requests.length).toBe(2);
@@ -1270,6 +1271,7 @@ test.describe('Streaming', () => {
 
 		test('Catches fetch errors from server load functions (direct hit)', async ({ page }) => {
 			page.goto('/streaming/server-error');
+			page.waitForTimeout(200)
 			await expect(page.locator('p.eager')).toHaveText('eager');
 			await expect(page.locator('p.fail')).toHaveText('fail');
 		});
